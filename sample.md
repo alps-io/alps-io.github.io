@@ -1,3 +1,7 @@
+---
+layout: post
+title: sample stuff
+---
 GitHub Flavored Markdown
 ================================
 
