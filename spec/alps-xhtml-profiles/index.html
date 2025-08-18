@@ -1,0 +1,643 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>ALPS - Application-Level Profile Semantics</title>
+    <link type="text/css" rel="stylesheet" href="profile.css" />
+	  <link type="text/css" rel="stylesheet" href="w3c.css" />
+		</head>
+	<body>
+    <div id="ads" style="text-align:center;">
+      <script type="text/javascript"> 
+            google_ad_client = "pub-2944238157647009";
+            google_ad_width = 728;
+            google_ad_height = 90;
+            google_ad_format = "728x90_as";
+            google_ad_type = "text_image";
+            google_ad_channel = "4794860677";
+            google_color_border = "000000";
+            google_color_bg = "F0F0F0";
+            google_color_link = "000000";
+            google_color_text = "000000";
+            google_color_url = "000000";
+      </script>
+      <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+    </div>
+		<div id="heading">
+				<h1>ALPS - Application-Level Profile Semantics</h1>
+				<h2>Example: Micro-blogging with XHTML</h2>
+				<dl>
+					<dt>Author:</dt>
+					<dd>Mike Amundsen (<a href="mailto:mamund@yahoo.com">mamund@yahoo.com</a>)</dd>
+					<dt>Dates:</dt>
+					<dd>2011-02-13 (Created)</dd>
+					<dd>2011-05-04 (Updated)</dt>
+					<dt>Status:</dt>
+					<dd class="stable">Stable Draft</dd>
+				</dl>
+	  </div>
+	  <div id="quote">
+	    <p>
+	      "Walking on water and developing software from a specification are easy if both are frozen." 
+	    </p>
+	    <p align="right">
+	      <a href="http://www.softwarequotes.com/showquotes.aspx?id=613&name=Edward%20Berard">Edward V. Berard</a>
+	    </p>
+	  </div>
+	  <div id="email-group">
+	    <h3>Discussion Group and Blog</h3>
+	    <p>
+	      Join the <b>Application-Level Profile Semantics (ALPS)</b> discussion group by visiting the 
+        group's <a href="http://groups.google.com/group/profile-semantics">home page</a>.
+	      You can add your comments to the <a href="http://amundsen.com/blog/archives/1093">blog post</a>
+	      that first introduced this document.
+	    </p>
+	  </div>
+	  <div id="menu">
+	    <ul>
+	      <li><a href="#general">General Description</a></li>
+	      <li><a href="#goals">Goals</a></li>
+	      <li><a href="#experiment">The Experiment</a></li>
+	      <li><a href="#compliance">Compliance</a></li>
+	      <li><a href="#design">Design Characteristics</a></li>
+	      <li><a href="#constraints">Additional Constraints</a></li>
+	      <li><a href="#semantics">Semantic Profile</a></li>
+				<li><a href="#acknowlegements">Acknowledgements</a></li>
+				<li><a href="#refs">References</a></li>
+	    </ul>
+	  </div>
+		<div id="general">
+			<h2>General Description</h2>
+			<p>
+			The purpose of Application-Level Profile Semantics (ALPS) is to document the application-level semantics of a particular implementation.
+			This is accomplished by describing elements of response representations for a target media type. For example identifying markup 
+			elements returned (i.e. semantic HTML ala <a href="#refs-microformats"title="Microformats">Microformats</a>) and state transitions (i.e. 
+			HTML.A and HTML.FORM elements) that advance the state of the current application. 
+			</p>
+			<p>
+			The example profile here contains details on customizing the <a href="#refs-xhtml" title="XHTML 1.0">XHTML</a> media type for a 
+			specific application domain: <b>Micro-blogging</b>. It contains descriptions of valid @class, @id, @name, and @rel values 
+			that can appear within XHTML resource representations. The identified base media-type (XHTML) along with the list of attributes, values, and their 
+			meaning describe a "hypermedia interface." This document is presented as a complete blueprint for implementing a 
+			compliant client or server that supports the basic features of the target application domain (Micro-blogging). 
+			</p>
+			<p>
+			It should be noted that this documentation <i>does not</i> contain any of the following:
+			<ul>
+				<li>URI construction rules</li>
+				<li>Suggested resource names</li>
+				<li>HTTP request/response samples</li>
+				<li>Example resource representations</li>
+			</ul>
+			</p>
+		  <p>
+			This work was inspired by Roy T. Fielding's 
+			<a href="#refs-apirules" title="REST APIs must be hypertext-driven">REST APIs must be hypertext-driven</a>.
+			The implementation approach is based on Tantek Çelik's 
+			<a href="#refs-xmdp" title="XMDP">XHTML Meta Data Profiles</a>.
+			</p>
+		</div>
+		<div id="goals">
+			<h2>Goals</h2>
+			<ul>
+				<li>Design a document format for describing hypermedia interfaces for use in public distributed network applications.</li>
+				<li>Discover Web developers' common assumptions when building Web client and server applications.</li>
+				<li>Explore the challenges of designing and implementing client and server applications for the Web that can independently evolve over time.</li>
+			</ul>
+		</div>
+		<div id="experiment">
+			<h2>The Experiment</h2>
+			<p>
+			As a way to test the viability of this method of documenting hypermedia interfaces, an experiment has been devised. 
+			In this experiment, multiple parties will be asked to build their own client or server applications to match this specification; 
+			all without seeing each other's work or accessing a running "reference" implementation.	 
+			</p>
+			<p>
+			Developers are expected to rely on the contraints and definitions found in this document (and the <a href="#refs">referenced RFCs</a>) as the 
+			sole instruction for building their solutions.
+			</p>
+		</div>
+		<div id="compliance">
+			<h2>Compliance</h2>
+			<p>
+			 An implementation is not compliant if it fails to satisfy one or more
+			 of the MUST or REQUIRED level requirements. An implementation that satisfies all the MUST or REQUIRED
+			 level and all the SHOULD level requirements is said
+			 to be "unconditionally compliant"; one that satisfies all the MUST
+			 level requirements but not all the SHOULD level requirements is said to be "conditionally compliant."        
+			</p>
+			<blockquote>
+			  <p>
+			  The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
+        NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED",  "MAY", and
+        "OPTIONAL" in this document are to be interpreted as described in
+        <a href="#refs-2119">RFC 2119</a>.
+        </p>
+			</blockquote>
+		</div>
+		<div id="design">
+			<h2>Design Characteristics</h2>
+			<dl>
+				<dt>Base Format</dt>
+				<dd>XHTML</dd>
+				<dt>Domain Semantics</dt>
+				<dd>Specific (via ALPS)</dd>
+				<dt>State Transfer</dt>
+				<dd>Ad-Hoc (via HTML FORMs)</dd>
+				<dt>App Flow</dt>
+				<dd>Applied (via ALPS)</dd>
+				<dt>H-Factors</dt>
+				<dd><a href="#refs-hfactor">LO, LE, LT, LN, CM, CL</a></dd>
+			</dl>
+		</div>
+		<div id="constraints">
+			<h2>Additional Constraints</h2>
+			<ul>
+				<li>All resource representations MUST be <a href="#refs-validator">valid</a> <a href="#refs-xhtml" title="XHTML 1.0">XHTML</a> documents.</li>
+				<li>Servers MAY require clients to support <a href="#refs-2617" title="RFC2617">HTTP Authentication</a> (BASIC or DIGEST) for some requests.</li>
+				<li>Servers MAY provide additional markup or features not covered in this profile but these additions 
+				  MUST NOT contradict the semantics outlined here.
+				</li>
+				<li>Servers MAY supply code-on-demand elements with thier resource representations (Javascript, CSS, XSLT, etc.) but 
+				  servers SHOULD NOT assume clients will support them.
+				</li>
+				<li class="correct">
+				    Servers MAY supply INPUT elements in FORMS which are not documented in this spec
+				    and clients SHOULD(MUST?) return those INPUT elements when POSTing the FORM.
+				</li>
+			</ul>
+		</div>
+		<!--
+    <div id="comments">
+			<h2>Comments and Feedback</h2>
+			<div id="feedback">
+      <dl>
+        <dt>KevBurnsJr</dt>
+        <dd>
+          <ul>
+            <li>Add an "index" link that points to the start. <span class="accepted">added</span></li>
+            <li>Add a "self" link that points to the current representation. <span class="accepted">added</span></li>
+            <li>Why no LINK elements?</li>
+            <li>Make the profile machine-readable.</li>
+          </ul>
+        </dd>
+        <dt>Jon Moore</dt>
+        <dd>
+          <ul>
+            <li>Document the semantics of the INPUTs as a sub-paragraph of the FORM class they can appear in. <span class="accepted">added</span></li> 
+            <li>Use "descendent/ancestor"instead of "child/parent" to provide a little more flexibility in the nesting 
+            structure for future representations. <span class="accepted">added</span>
+            </li>
+          </ul>
+        </dd>
+        <dt>mogsie</dt>
+        <dd>
+          <ul>
+            <li>
+              The form input uses the @name attribute to identify items, and that forces server implementations to use forms with 
+              specific names, requiring a certain URL policy (the names of request parameters) in the spec. I think it would be wiser 
+              to merely identify the HTML form elements, either using class or id, and leave the name up to the implementors.            
+            </li> 
+            <li>
+              You don't mention Code-on-demand at all; a hashbang server that doesn't work unless there's good support for Javascript, 
+              will probably work in a browser, but most client implementations would probably fail. Should you state required 
+              conformance levels for user agents? <span class="accepted">added</span>
+            </li>
+          </ul>
+        </dd>
+        <dt>Others</dt>
+        <dd>
+          <ul>
+            <li>I prefer some example message exchanges. [Dong]</li>
+            <li>Use for RDFa and SIOC for the machine-readable version. [zazi]</li>
+						<li>Identify a core set of features that MUST be implemented instead of relying too heavily on SHOULD. [whartung]</li>
+						<li>I find the term "member" confusing, could you change it to "user"? [wombert] <span class="accepted">added</span></li>
+          </ul>
+        </dd>
+			</dl>
+			</div>
+		</div>
+		-->
+    <div id="semantics">
+  		<h2>Semantic Profile</h2>
+  		<p>
+  		What follows is a list of XHTML attributes and their possible values. Servers SHOULD send resource representations that contain these values
+			along with appropriate markup and data. Servers are free to decide which elements are appropriate for each resource representation. Servers
+			are also free to determine which of the elements below are to be supported.   
+  		</p>
+  		<p>Clients SHOULD be prepared to properly handle the all attributes and elements described here. Clients SHOULD
+  		also be prepared to provide state transfers (FORMs) back to the server as indicated. 
+  		</p>
+  		<p>Servers MAY provide additional semantics and clients MAY support those additional semantics.
+			</p>
+			<blockquote>
+ 			<h4>Profile Notes</h4>
+ 		  <p>
+  		The first column contains the XHTML <span class="att-name">attribute name</span>. 
+  		The second column contains the  <span class="att-value">possible value</span> for that attribute. 
+  		The third column contains the	<span class="att-meaning">semantic meaning</span> of that attribute-value pair.
+  		</p>
+				<p>
+			  The phrase "designated user" means 1) the currently <a href="#refs-2617" title="RFC2617">authenticated</a>
+			  (logged-in) user; 2) a user identified via other state information (<a href="#refs-2109" title="RFC2109">Cookies</a>, etc.) or;
+				3) a user selected by some other means (following a link, etc.).
+				</p>
+  		</blockquote>
+  		<dl class="profile">
+        <dt id="class">class</dt>
+  			<dd>
+  			  <dl> 
+  					<dt id="all-class">all</dt>
+  					<dd>Applied to a UL tag. A list representation <span class="correct">of unfiltered results</span>. 
+  					When this element is a descendent of 
+  					DIV.id="<a href="#messages-id">messages</a>" it MAY have one or more
+  					LI.class="<a href="#message-class">message</a>" descendent elements.
+  					When this element is a descendent of 
+  					DIV.id="<a href="#users-id">users</a>" it MAY have one or more 
+  					LI.class="<a href="#user-class">user</a>" descendent elements.
+						</dd>
+						<dt id="date-time-class">date-time</dt>
+						<dd>Applied to a SPAN tag. Contains the UTC date-time the message was posted. When present, it SHOULD be valid per <a href="#refs-3339">RFC3339</a>.</dd>
+  					<dt id="description-class">description</dt>
+  					<dd>Applied to a SPAN tag. Contains the text description of a user.</dd>
+  					<dt id="friends-class">friends</dt>
+  					<dd>Applied to a UL tag. A list representation.
+  					When this element is a descendent of DIV.id="<a href="#messages-id">messages</a>" it contains the list of messages 
+  					posted by the designated user's friends and 
+  					MAY have one or more LI.class="<a href="#message-class">message</a>" descendent elements.
+  					When this element is a descendent of DIV.id="<a href="#users-id">users</a>" it contains the list of users 
+  					who are the friends of the designated user and 
+  					MAY have one or more LI.class="<a href="#user-class">user</a>" descendent elements.
+  					</dd>
+  					<dt id="followers-class">followers</dt>
+  					<dd>Applied to a UL tag. A list representation of all the users from the designated user's friends list. 
+  					MAY have one or more LI.class="<a href="#user-class">user</a>" descendent elements.</dd>
+  					<dt id="me-class">me</dt>
+  					<dd>Applied to a UL tag.
+    				When this element is a descendent of DIV.id="<a href="#messages-id">messages</a>" it contains the list of messages 
+    				posted by the designated user and MAY have one or more LI.class="<a href="#message-class">message</a>" descendent elements.
+  					When this element is a descendent of DIV.id="<a href="#users-id">users</a>" it SHOULD contain a single descendent 
+  					LI.class="<a href="#user-class">user</a>" with the designated user's profile.
+  					</dd>
+  					<dt id="mentions-class">mentions</dt>
+  					<dd>Applied to a UL tag. A list representation of all the messages that mention the designated user. It MAY contain one or more 
+  					LI.class="<a href="#message-class">message</a> descendent elements.</dd>
+  					<dt id="message-class">message</dt>
+  					<dd>Applied to an LI tag. A representation of a single message.  It SHOULD contain the following descendent elements:
+  					  <ul>
+  					    <li>SPAN.class="<a href="#user-text-class">user-text</a>"</li>
+  					    <li>A.rel="<a href="#user-rel">user</a>"</li>
+								<li>SPAN.class="<a href="#message-text-class">message-text</a></li>
+								<li>A.rel="<a href="#message-rel">message</a>"</li>
+              </ul>
+              It MAY also contain the following descendent elements:
+              <ul>
+								<li>IMG.class="<a href="#user-image-class">user-image</a>"</li>
+								<li>SPAN.class="<a href="#date-time-class">date-time</a>"</li>
+              </ul>
+            </dd>
+  					<dt id="message-post-class">message-post</dt>
+  					<dd>Applied to a FORM tag. A link template to add a new message to the system by the designated (logged-in) user.
+  					The element MUST be set to FORM.method="post" and SHOULD contain a descendent element: 
+  					  <ul>
+  					    <li>TEXTAREA.name="<a href="#message-name">message</a>"</li>
+  					  </ul>
+  					</dd>
+  					<dt id="message-reply-class">message-reply</dt>
+  					<dd>Applied to a FORM tag. A link template to reply to an existing message. The element MUST be set to FORM.method="post" and 
+  					SHOULD contain the following descendent elements:
+  					  <ul>
+  					    <li>INPUT[hidden].name="<a href="#user-name">user</a>" (the author of the post to be replied-to)</li>
+  					    <li>TEXTAREA.name="<a href="#message-name">message</a>"</li>
+  					  </ul>
+  					</dd>
+            <dt id="message-share-class">message-share</dt>
+  					<dd>Applied to a FORM tag. A link template to share an existing message. The element MUST be set to FORM.method="post" and 
+  					SHOULD contain the following descendent elements: 
+  					  <ul>
+  					    <li>INPUT[hidden].name="<a href="#user-name">user</a>" (the author of the post to be shared)</li>
+  					    <li>TEXTAREA.name="<a href="#message-name">message</a>"</li>
+  					  </ul>
+  					</dd>
+  					<dt id="single-class">single</dt>
+						<dd>When this element is a descendent of DIV.id="<a href="#messages-id">messages</a>" it contains the message 
+						selected via a <a href="#message-rel">message</a> link. 
+  					SHOULD have a single LI.class="<a href="#message-class">message</a>" descendent element.
+  					When this element is a descendent of DIV.id="<a href="#users-id">users</a>" it contains the user 
+						selected via a <a href="#user-rel">user</a> link. 
+						SHOULD have a single LI.class="<a href="#user-class">user</a>" descendent element.</dd>
+						<dt id="messages-search-class">messages-search</dt>
+  					<dd>Applied to a FORM tag. A link template to search of all the messages. The element MUST be set to FORM.method="get" and 
+  					SHOULD contain the following descendent elements:
+  					  <ul>
+  					    <li>INPUT[text].name="<a href="#search-name">search</a>"</li>
+  					  </ul>
+							</dd>
+						<dt id="message-text-class">message-text</dt>
+						<dd>Applied to a SPAN tag. The text of a message posted by a user.</dd>
+  					<dt id="search-class">search</dt>
+  					<dd>Applied to a UL tag. A list representation <span class="correct">of search results</span>.
+  					When this element is a descendent of DIV.id="<a href="#messages-id">messages</a>" it contains a list of messages and 
+  					MAY have one or more LI.class="<a href="#message-class">message</a>" descendent elements.
+  					When this element is a descendent of DIV.id="<a href="#users-id">users</a>" it contains a list of users and 
+  					MAY have one or more LI.class="<a href="#user-class">user</a>" descendent elements.</dd>
+  					<dt id="shares-class">shares</dt>
+  					<dd>Applied to a UL tag. A list representation of all the messages posted by the designated user that were shared by other users. 
+  					It MAY contain one or more LI.class="<a href="#message-class">message</a>" descendent elements.</dd>
+  					<dt id="user-class">user</dt>
+  					<dd>Applied to an LI tag. A representation of a single user.  It SHOULD contain the following descendent elements:
+  					  <ul>
+  					    <li>SPAN.class="<a href="#user-text-class">user-text</a>"</li>
+  					    <li>A.rel="<a href="#user-rel">user</a>"</li>
+  					    <li>A.rel="<a href="#message-rel">messages</a>"</li>
+  					  </ul>
+  					  It MAY also contain the following descendent elements:
+  					  <ul>
+								<li>SPAN.class="<a href="#description-class">description</a>"</li>
+  					    <li>IMG.class="<a href="#user-image-class">user-image</a>"</li>
+								<li>A.rel="<a href="#website-rel">website</a></li>
+  					  </ul>
+  					</dd>
+  					<dt id="user-add-class">user-add<dt>
+  					<dd>Applied to a FORM tag. A link template to create a new user profile. 
+  					The element MUST be set to FORM.method="post" and 
+  					SHOULD contain the following descendent elements: 
+    					<ul>
+    					  <li>INPUT[text].name="<a href="#user-name">user</a>"</li>
+    					  <li>INPUT[text].name="<a href="#email-name">email</a>"</li>
+    					  <li>INPUT[password].name="<A href="#password-name">password</a>"</li>
+  					  </ul>
+  					It MAY also contain the following descendent elements:
+  					  <ul>
+    					  <li>TEXTAREA.name="<a href="#description-name">description</a>"</li>
+  					    <li>INPUT[file].name="<a href="#user-image-name">user-image</a>"</li>
+  					    <li>INPUT[text].name="<a href="#website-name">website</a>"</li>
+  					  </ul>  
+  					</dd>
+  					<dt id="user-follow-class">user-follow</dt>
+  					<dd>Applied to a FORM tag. A link template to add a user to the designated user's friend list. 
+  					The element MUST be set to FORM.method="post" and 
+  					SHOULD contain the descendent element
+  					  <ul>
+  					    <li>INPUT[text].name="<a href="#user-name">user</a>"</li>
+  					  </ul>
+  					</dd>
+  					<dt id="user-image-class">user-image<dt>
+  					<dd>Applied to an IMG tag. A reference to an image of the designated user.</dd>
+  					<dt id="user-name-class" class="correct">user-name<dt>
+  					<dd class="correct">Applied to SPAN tag. The user's full name.</dd>
+  					<dt id="user-text-class">user-text</dt>
+  					<dd>Applied to a SPAN tag. The user nickname text.</dd>
+  					<dt id="user-update-class">user-update<dt>
+  					<dd>Applied to a FORM tag. A link template to update the designated user's profile. 
+  					The element MUST be set to FORM.method="post" and	SHOULD contain the following descendent elements:
+  					  <ul>
+  					    <li>INPUT[hidden].name="<a href="#user-name">user</a>"</li>
+  					    <li>INPUT[hidden].name="<a href="#email-name">email</a>"</li>
+  					    <li>INPUT[password].name="<a href="#password-name">password</a>"</li>
+  					  </ul>
+  					It MAY also contain the following descendent elements:
+  					  <ul>
+  					    <li>TEXTAREA.name="<a href="#description-name">description</a>"</li>
+  					    <li>INPUT[file].name="<a href="#user-image-name">user-image</a>"</li>
+  					    <li>INPUT[text].name="<a href="#website-name">website</a>"</li>
+  					  </ul>  
+  					</dd>
+  					<dt id="users-search-class">users-search<dt>
+  					<dd>Applied to a FORM tag. A link template to search of all the users. The element MUST be set to FORM.method="get" and 
+  					SHOULD contain the descendent element: 
+  					  <ul>
+  					    <li>INPUT[text].name="<a href="#search-name">search</a>"</li>
+  					  </ul>
+  					</dd>
+  				</dl>
+  			</dd>
+  			<dt id="id">id</dt>
+  			<dd>
+  				<dl>
+  					<dt id="messages-id">messages</dt>
+  					<dd>Applied to a DIV tag. The list of messages in this representation. MAY have one or more of the following descendent elements:
+  					<ul>
+  					  <li>UL.class="<a href="#all-class">all</a>"</li>
+  					  <li>UL.class="<a href="#friends-class">friends</a>"</li>
+  					  <li>UL.class="<a href="#me-class">me</a>"</li>
+  					  <li>UL.class="<a href="#mentions-class">mentions</a>"</li>
+  					  <li>UL.class="<a href="#search-class">search</a>"</li>
+  					  <li>UL.class="<a href="#shares-class">shares</a>"</li>
+  					  <li>UL.class="<a href="#single-class">single</a>"</li>
+  				  </ul>
+  					</dd>
+  					<dt id="queries-id">queries</dt>
+  					<dd>Applied to a DIV tag. The list of valid queries in this representation. MAY have one or more FORM and/or A 
+  					descendent elements (see "<a href="#rel">rel</a>" and "<a href="#class">class</a>" section for details).</dd>
+  					<dt id="users-id">users</dt>
+  					<dd>Applied to a DIV tag. The list of users in this representation. MAY have one or more of the following descendent elements:
+  					<ul>
+  					  <li>UL.class="<a href="#all-class">all</a>"</li>
+  					  <li>UL.class="<a href="#friends-class">friends</a>"</li>
+  					  <li>UL.class="<a href="#followers-class">followers</a>"</li>
+  					  <li>UL.class="<a href="#me-class">me</a>"</li>
+  					  <li>UL.class="<a href="#search-class">search</a>"</li>
+  					  <li>UL.class="<a href="#single-class">single</a>"</li>
+            </ul>
+  					</dd>
+  				</dl>
+  			</dd>
+  			<dt id="name">name</dt>
+  			<dd>
+  				<dl>
+  					<dt id="description-name">description</dt>
+  					<dd>Applied to a TEXTAREA element. The description of the user</dd>
+  					<dt id="email-name">email</dt>
+						<dd>Applied to an INPUT[text] or INPUT[hidden] element. The email address of a user. When supplied, it SHOULD be valid per <a href="#refs-5322">RFC5322</a>.</dd>
+  					<dt id="message-name">message</dt>
+  					<dd>Applied to a TEXTAREA element. The message to post (for the desginated user).</dd>
+  					<dt id="name-name">name</dt>
+  					<dd>Applied to an INPUT[text] element. The (full) name of a user</dd>
+  					<dt id="password-name">password</dt>
+  					<dd>Applied to an INPUT[password] element. The password of the user login</dd>
+  					<dt id="search-name">search</dt>
+  					<dd>Applied to an INPUT[text]. The search value to use when searching messages 
+  					(when applied to FORM.class="<a href="#messages-search-class">message-search</a>")
+  					or when searching users 
+  					(when applied to FORM.class="<a href="#users-search-class">users-search</a>").
+						</dd>
+  					<dt id="user-name">user</dt>
+  					<dd>Applied to an INPUT[text] or INPUT[hidden] element. The public nickname of a user. <span class="correct">This is the username for the user login.</span></dd>
+  					<dt id="user-image-name">user-image</dt>
+						<dd>Applied to an INPUT[file] element. The image for the user.</dd>
+						<dt id="website-name">website</dt>
+						<dd>Applied to an INPUT[text]. The URL of a website associated with the user profile. When supplied, it SHOULD be valid per <a href="#refs-3986">RFC3986</a>.</dd>
+  				</dl>
+  			</dd>
+  			<dt id="rel">rel</dt>
+  			<dd>
+  				<dl>
+  					<dt id="first-rel">first</dt>
+						<dd>Applied to an A tag. A reference to the first page in a list of data (<a href="#messages-id">messages</a>, <A href="#users-id">users</a>)</dd>
+  					<dt id="index-rel">index</dt>
+  					<dd>Applied to an A tag. A reference to the starting URI for the application.</dd>
+  					<dt id="last-rel">last</dt>
+						<dd>Applied to an A tag. A reference to the last page in a list of data (<a href="#messages-id">messages</a>, <A href="#users-id">users</a>)</dd>
+  					<dt id="message-rel">message</dt>
+						<dd>Applied to an A tag. A reference to a <a href="#message-class">message</a> representation</dd>
+  					<dt id="message-post-rel">message-post</dt>
+						<dd>Applied to an A tag. A reference to the <a href="#message-post-class">message-post FORM</a>.</dd>
+  					<dt id="message-reply-rel">message-reply</dt>
+						<dd>Applied to an A tag. A reference to the <a href="#message-reply-class">message-reply FORM</a>.</dd>
+  					<dt id="message-share-rel">message-share</dt>
+						<dd>Applied to an A tag. A reference to the <a href="#message-share-class">message-share FORM</a>.</dd>
+  					<dt id="messages-all-rel">messages-all</dt>
+  					<dd>Applied to an A tag. A reference to a list representation of all the <a href="#messages-id">messages</a> in the system.</dd>
+  					<dt id="messages-friends-rel">messages-friends</dt>
+  					<dd>Applied to an A tag. A reference to a list representation of all the <a href="#messages-id">messages</a> from the designated user's friends list</dd>
+  					<dt id="messages-me-rel">messages-me</dt>
+  					<dd>Applied to an A tag. A reference to a list representation of all the <a href="#messages-id">messages</a> posted by the designated user.</dd>
+  					<dt id="messages-mentions-rel">messages-mentions</dt>
+  					<dd>Applied to an A tag. A reference to a list representation of all the <a href="#messages-id">messages</a> that mention the designated user.</dd>
+  					<dt id="messages-shares-rel">messages-shares</dt>
+  					<dd>Applied to an A tag. A reference to a list representation of all the <a href="#messages-id">messages</a> posted by the designated user that 
+  					were shared by other users.</dd>
+  					<dt id="messages-search-rel">messages-search</dt>
+						<dd>Applied to an A tag. A reference to the <a href="#messages-search-class">messages-search FORM</a>.</dd>
+  					<dt id="next-rel">next</dt>
+  					<dd>Applied to an A tag. A reference to the next page in a list of data (<a href="#messages-id">messages</a>, <A href="#users-id">users</a>)</dd>
+  					<dt id="previous-rel">previous</dt>
+  					<dd>Applied to an A tag. A reference to the previous page in a list of data (<a href="#messages-id">messages</a>, <A href="#users-id">users</a>)</dd>
+  					<dt id="self-rel">self</dt>
+						<dd>Applied to an A tag. A reference to the currently loaded resource representation.
+						  <span class="correct">Should be applied to LINK element only OR to an A element which MUST be an immediate child of BODY element.</span>
+						</dd>
+  					<dt id="user-rel">user</dt>
+  					<dd>Applied to an A tag. A reference to a <a href="#user-class">user</a> representation</dd>
+  					<dt id="user-add-rel">user-add</dt>
+						<dd>Applied to an A tag. A reference to the <a href="#user-add-class">user-add FORM</a>.</dd>
+  					<dt id="user-follow-rel">user-follow</dt>
+						<dd>Applied to an A tag. A reference to the <a href="#user-follow-class">user-follow FORM</a>.</dd>
+  					<dt id="user-me-rel">user-me<dt>
+  					<dd>Applied to an A tag. A reference to the designated  <a href="#user-class">user</a>'s representation.</dd>
+  					<dt id="user-update-rel">user-update</dt>
+						<dd>Applied to an A tag. A reference to the <a href="#user-update-class">user-update FORM</a>.</dd>
+  					<dt id="users-all-rel">users-all<dt>
+						<dd>Applied to an A tag. A reference to a list representation of all the <A href="#users-id">users</a> in the system.</dd>
+  					<dt id="users-friends-rel">users-friends<dt>
+						<dd>Applied to an A tag. A reference to list representation of the designated user's friend <A href="#users-id">users</a>.</dd>
+  					<dt id="users-followers-rel">users-followers<dt>
+						<dd>Applied to an A tag. A reference to list representation of the <A href="#users-id">users</a> who follow the designated user.</dd>
+  					<dt id="users-search-rel">users-search</dt>
+						<dd>Applied to an A tag. A reference to the <a href="#users-search-class">users-search FORM</a>.</dd>
+						<dt id="website-rel">website</dt>
+						<dd>Applied to an A tag. A reference to the website associated with a <a href="#user-class">user</a>.</dd>
+  				</dl>
+  		  </dd>
+  		</dl>
+		</div>
+		<div id="acknowlegements">
+			<h2>Acknowledgements</h2>
+			<p>
+				The general idea for ALPS was inspired by Roy T. Fielding's <a href="#refs-apirules" title="REST APIs must be hypertext-driven">REST APIs must be hypertext-driven</a>. 
+				The implementation details are based on Tantek Çelik's <a href="#refs-xmdp" title="XMDP">XHTML Meta Data Profiles</a>.
+			</p>
+			<p>
+				The people listed below contributed ideas, comments, criticsms, and encouragement. 
+			</p>
+			<ul class="list">
+				<li><a href="http://twitter.com/darrel_miller">Darrel Miller</a></li>
+				<li><a href="http://twitter.com/dzuelke">David Zuelke</a></li>
+				<li><a href="http://dongnotes.blogspot.com/">Dong Liu</a></li>
+				<li><a href="http://twitter.com/mogsie">Erik Mogensen</a></li>
+				<li><a href="http://twitter.com/jon_moore">Jon Moore</a></li>
+				<li><a href="http://twitter.com/kevburnsjr">Kevin Burns Jr.</a></li>
+				<li><a href="http://willhartung.blogspot.com">Will Hartung</a></li>
+				<li><a href="http://twitter.com/smiysmiysmiy">zazi</a></li>
+			</ul>
+		</div>
+		<div id="refs">
+		  <h2>References</h2>
+		  <ul>
+				<li id="refs-xhtml"><a href="http://www.w3.org/TR/xhtml1/">XHTML™ 1.0 The Extensible HyperText Markup Language (Second Edition)</a></li>
+				<li id="refs-html4"><a href="http://www.w3.org/TR/html401/">HTML 4.01 Specification</a></li>
+				<li id="refs-apirules"><a href="http://roy.gbiv.com/untangled/2008/rest-apis-must-be-hypertext-driven">REST APIs must be hypertext-driven</a></li>
+		    <li id="refs-xmdp"><a href="http://gmpg.org/xmdp/">Xhtml Meta Data Profiles</a></li>
+		    <li id="refs-hfactor"><a href="http://amundsen.com/hypermedia/hfactor/">H-Factors</a></li>
+		    <li id="refs-2617"><a href="http://tools.ietf.org/html/rfc2617">HTTP Authentication: Basic and Digest Access Authentication [RFC2617]</a></li>
+				<li id="refs-2119"><a href="http://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels [RFC2119]</a></li>
+				<li id="refs-2109"><a href="http://tools.ietf.org/html/rfc2109">HTTP State Management Mechanism [RFC2109]</a></li>
+				<li id="refs-5322"><a href="http://tools.ietf.org/html/rfc5322">Internet Message Format [RFC5322]</a></li>
+				<li id="refs-3986"><a href="http://tools.ietf.org/html/rfc3986">Uniform Resource Identifier (URI): Generic Syntax [RFC3986]</a></li>
+				<li id="refs-3339"><a href="http://tools.ietf.org/html/rfc3339">Date and Time on the Internet: Timestamps [RFC3339]</a></li>
+				<li id="refs-microformats"><a href="http://microformats.org">Microformats</a></li>
+				<li id="refs-validator"><a href="http://validator.w3.org/">W3C Markup Validation Service</a></li>
+		  </ul>
+		</div>
+    <div id="footer">
+			<hr />
+				<p>
+				<a href="#heading" title="Top">Top</a>
+				</p>
+		</div>
+	</body>
+  <script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
+  <script type="text/javascript"> 
+      _uacct = "UA-2399548-1";
+      urchinTracker();
+  </script>
+  <script type="text/javascript">
+    var pg = null;
+    
+    window.onload = function() {
+      pg = thisPage();
+      pg.init();
+    }
+    
+    var thisPage = function() {
+      
+      var g = {};
+      g.colorOn = 'yellow';
+      g.colorOff = 'white';
+      g.linkRef ='#refs-';
+      
+      function init() {
+        attachEvents();
+      }
+      
+      function attachEvents() {
+        var coll, i, x;
+        
+        coll = document.getElementsByTagName('a');
+        for(i=0, x=coll.length; i<x; i++) {
+          coll[i].onclick = showLink;
+        }
+      }
+            
+      function showLink() {
+        var elm, idx;
+        
+        idx = this.href.indexOf(g.linkRef); 
+        
+        if(idx !== -1) {
+          clearLinks();         
+          elm = document.getElementById(this.href.substring(idx+1));
+          if(elm) {
+            elm.style.backgroundColor = g.colorOn;
+          }
+        }
+      }
+
+      function clearLinks() {
+        var i, coll, x;
+        
+        coll = document.getElementsByTagName('li');
+        for(i=0, x=coll.length; i<x; i++ ) {
+          if(coll[i].style.backgroundColor=g.colorOn) {
+            coll[i].style.backgroundColor=g.colorOff;
+          }
+        }
+      }
+
+      var that = {};
+      that.init = init;
+      return that;
+    }
+  </script>
+</html>

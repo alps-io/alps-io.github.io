@@ -1,0 +1,1 @@
+Line 39: Unrecognized string: RewriteRule ^/foaf.rdf%23me /foaf.rdf#me [L,I, RP]
